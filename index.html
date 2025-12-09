@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  
+  <title>Frontend Mentor | Weather app</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <div class="headerContent">
+        <img src="../assets/images/logo.svg" alt="logo">
+        <button class="unitsButton">
+          <img src="./assets/images/icon-units.svg" alt="engrenagem">
+          Units
+          <img src="./assets/images/icon-dropdown.svg" alt="seta para baixo">
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <div class="mainContent">
+        <div class="searchSection">
+          <h1 class="title">How's the sky looking today?</h1>
+          <form class="searchForm">
+            <div class="searchBox">
+              <img src="/assets/images/icon-search.svg" alt="search icon">
+              <input class="searchInput" type="text" name="search" id="search" placeholder="Search for a city, e.g., New York" >
+            </div>
+            <button class="searchButton" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+        <div class="weatherSection">
+          <div class="contentWeather">
+            <div class="backgroundImage">
+              <div class="contentOverlay">
+                <div class="locationInfo">
+                  <h2 class="cityName">City Name</h2>
+                  <p class="dateInfo">Date Info</p>
+                </div>
+                <div class="currentWeather">
+                  <img class="weatherIcon" src="./assets/images/icon-sunny.webp" alt="weather icon">
+                  <p class="temperature">20 °</p>
+                </div>
+              </div>
+            </div>
+            <div class="contentCards">
+              <div class="cardDetails">
+                <h3>Feels like</h3>
+                <p>18°</p>
+              </div>
+              <div class="cardDetails">
+                <h3>Humidity</h3>
+                <p>46%</p>
+              </div>
+              <div class="cardDetails">
+                <h3>Wind</h3>
+                <p>14 km/h</p>
+              </div>
+              <div class="cardDetails">
+                <h3>Precipitation</h3>
+                <p>0 mm</p>
+              </div>
+            </div>
+            <div class="contentForecast">
+              <h3>
+                Daily forecast
+              </h3>
+              <div class="containerForecast">
+                <div class="cardForecast">
+                  <p class="dayOfWeek">Monday</p>
+                  <img class="iconForecast" src="./assets/images/icon-sunny.webp" alt="weather icon">
+                  <div class="tempsForecast">
+                    <p class="">18°</p>
+                    <p class="">25°</p>
+                  </div>
+                </div>
+                <div class="cardForecast">
+                  <p class="dayOfWeek">Tuesday</p>
+                  <img class="iconForecast" src="./assets/images/icon-partly-cloudy.webp" alt="weather icon">
+                  <div class="tempsForecast">
+                    <p class="">16°</p>
+                    <p class="">23°</p>
+                  </div>
+                </div>
+                <div class="cardForecast">
+                  <p class="dayOfWeek">Wednesday</p>
+                  <img class="iconForecast" src="./assets/images/icon-overcast.webp" alt="weather icon">
+                  <div class="tempsForecast">
+                    <p class="">15°</p>
+                    <p class="">21°</p>
+                  </div>
+                </div>
+                <div class="cardForecast">
+                  <p class="dayOfWeek">Thursday</p>
+                  <img class="iconForecast" src="./assets/images/icon-rain.webp" alt="weather icon">
+                  <div class="tempsForecast">
+                    <p class="">14°</p>
+                    <p class="">19°</p>
+                  </div>
+                </div>
+                <div class="cardForecast">
+                  <p class="dayOfWeek">Friday</p>
+                  <img class="iconForecast" src="./assets/images/icon-drizzle.webp" alt="weather icon">
+                  <div class="tempsForecast">
+                    <p class="">16°</p>
+                    <p class="">22°</p>
+                  </div>
+                </div>
+                <div class="cardForecast">
+                  <p class="dayOfWeek">Saturday</p>
+                  <img class="iconForecast" src="./assets/images/icon-partly-cloudy.webp" alt="weather icon">
+                  <div class="tempsForecast">
+                    <p class="">17°</p>
+                    <p class="">24°</p>
+                  </div>
+                </div>
+                <div class="cardForecast">
+                  <p class="dayOfWeek">Sunday</p>
+                  <img class="iconForecast" src="./assets/images/icon-sunny.webp" alt="weather icon">
+                  <div class="tempsForecast">
+                    <p class="">19°</p>
+                    <p class="">26°</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="weatherList"></div>
+        </div>
+      </div>
+    </main>
+    Units
+    Switch to Imperial/Metric
+    Temperature
+    Celsius (°C)
+    Fahrenheit (°F)
+    Wind Speed
+    km/h
+    mph
+    Precipitation
+    Millimeters (mm)
+    Inches (in)
+  
+    <div class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge">Frontend Mentor</a>.
+      Coded by <a href="https://github.com/daviiisousa">Davi Sousa</a>.
+    </div>
+  </div>
+</body>
+</html>
