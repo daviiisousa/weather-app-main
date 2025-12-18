@@ -14,11 +14,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
   <link rel="stylesheet" href="style.css">
   
   <title>Frontend Mentor | Weather app</title>
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
   <style>
     .attribution { font-size: 11px; text-align: center; }
     .attribution a { color: hsl(228, 45%, 44%); }
@@ -42,7 +45,7 @@
       <div class="mainContent">
         <div class="searchSection">
           <h1 class="title">How's the sky looking today?</h1>
-          <form class="searchForm">
+          <form id="locationForm" class="searchForm">
             <div class="searchBox">
               <img src="/assets/images/icon-search.svg" alt="search icon">
               <input class="searchInput" type="text" name="search" id="search" placeholder="Search for a city, e.g., New York" >
@@ -57,12 +60,11 @@
             <div class="backgroundImage">
               <div class="contentOverlay">
                 <div class="locationInfo">
-                  <h2 class="cityName">City Name</h2>
-                  <p class="dateInfo">Date Info</p>
+                  <h2 class="cityName" id="cityName"></h2>
+                  <p class="dateInfo" id="time"></p>
                 </div>
-                <div class="currentWeather">
-                  <img class="weatherIcon" src="./assets/images/icon-sunny.webp" alt="weather icon">
-                  <p class="temperature">20 °</p>
+                <div class="currentWeather" id="currentWeather">
+                  
                 </div>
               </div>
             </div>
