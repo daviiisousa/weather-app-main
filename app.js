@@ -1,3 +1,5 @@
+let loading = false
+
 function nameLocation() {
     const form = document.getElementById('locationForm')
 
@@ -25,6 +27,7 @@ nameLocation()
 
 async function getLocation(location) {
     try {
+        loading = true
         const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${location}`)
 
         const data = await response.json()
@@ -36,10 +39,7 @@ async function getLocation(location) {
         const country = data.results[0].country
         const city = data.results[0].name
 
-        const cityElement = document.getElementById('cityName')
-        cityElement.textContent = `${city}, ${country}`
-
-        getWeatherData(latitude, longitude)
+        getWeatherData(latitude, longitude, city, country)
 
     } catch (error) {
         Toastify({
@@ -50,20 +50,40 @@ async function getLocation(location) {
             position: "center",
             backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
         }).showToast()
+    } finally {
+        loading = false
     }
 }
 
 
-async function getWeatherData(latitude, longitude) {
+async function getWeatherData(latitude, longitude, city, country) {
     try {
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`)
+        loading = true
+
+        const backgroundImageElement = document.getElementById('backgroundImage')
+        const contentOverlayElement = document.getElementById('contentOverlay')
+
+        backgroundImageElement.classList.add('loading')
+
+        contentOverlayElement.innerHTML = `
+            <div class="loading-container">
+                <img class="loading-icon" src="./assets/images/icon-loading.svg" alt="loading">
+                <p class="loading-text">Loading...</p>
+            </div>
+        `
+
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=apparent_temperature,relativehumidity_2m&current_weather=true`)
 
         const data = await response.json()
         console.log(data)
 
+        backgroundImageElement.classList.remove('loading')
+
         const currentTemperature = data.current_weather.temperature || 'N/A'
         const typeTemperature = data.current_weather_units.temperature || 'N/A'
         const time = data.current_weather.time || 'N/A'
+        const windSpeed = data.current_weather.windspeed || 'N/A'
+        const windUnit = data.current_weather_units.windspeed || 'N/A'
 
         const dateObj = new Date(time)
         const formatted = dateObj.toLocaleDateString("pt-BR", {
@@ -73,10 +93,29 @@ async function getWeatherData(latitude, longitude) {
             year: "numeric",
         });
 
+        contentOverlayElement.innerHTML = `
+            <div class="locationInfo">
+                <h2 class="cityName" id="cityName">${city}, ${country}</h2>
+                <p class="dateInfo" id="time">${formatted}</p>
+            </div>
+            <div class="currentWeather" id="currentWeather"></div>
+        `
+
         imgWeatherCode(data.current_weather.weathercode, currentTemperature, typeTemperature)
 
-        const timeElement = document.getElementById('time')
-        timeElement.textContent = `${formatted}`
+        const humidityValue = humidity(data.hourly.time, data.hourly.relativehumidity_2m)
+
+        const feelsLikeValue = feelsLike(data.hourly.time, data.hourly.apparent_temperature)
+
+        const feelsLikeElement = document.getElementById('feelsLike')
+        feelsLikeElement.textContent = `${feelsLikeValue} ${typeTemperature}`
+
+        const windElement = document.getElementById('windSpeed')
+        windElement.textContent = `${windSpeed} ${windUnit}`
+
+        const humidityElement = document.getElementById('humidity')
+        humidityElement.textContent = `${humidityValue}%`
+
     } catch (error) {
         Toastify({
             text: "Unable to fetch weather data. Please try again later.",
@@ -86,7 +125,29 @@ async function getWeatherData(latitude, longitude) {
             position: "center",
             backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
         }).showToast()
+    } finally {
+        loading = false
     }
+}
+
+function humidity(time, humidity) {
+    const now = new Date().toISOString().slice(0, 13);
+
+    const index = time.findIndex(time =>
+        time.startsWith(now)
+    );
+
+    return humidity[index] || 'N/A';
+}
+
+function feelsLike(time, feelsLike) {
+    const now = new Date().toISOString().slice(0, 13);
+
+    const index = time.findIndex(time =>
+        time.startsWith(now)
+    );
+
+    return feelsLike[index] || 'N/A';
 }
 
 function imgWeatherCode(weatherCode, currentTemperature, typeTemperature) {
