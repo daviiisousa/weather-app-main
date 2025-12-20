@@ -72,7 +72,7 @@ async function getWeatherData(latitude, longitude, city, country) {
             </div>
         `
 
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=apparent_temperature,relativehumidity_2m&current_weather=true`)
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=precipitation,apparent_temperature,relativehumidity_2m&daily=weathercode,temperature_2m_min,temperature_2m_max&current_weather=true`)
 
         const data = await response.json()
         console.log(data)
@@ -107,6 +107,10 @@ async function getWeatherData(latitude, longitude, city, country) {
 
         const feelsLikeValue = feelsLike(data.hourly.time, data.hourly.apparent_temperature)
 
+        const precipitationValue = precipitation(data.hourly.time, data.hourly.precipitation)
+
+        const forecast = dailyForecast(data)
+
         const feelsLikeElement = document.getElementById('feelsLike')
         feelsLikeElement.textContent = `${feelsLikeValue} ${typeTemperature}`
 
@@ -115,6 +119,23 @@ async function getWeatherData(latitude, longitude, city, country) {
 
         const humidityElement = document.getElementById('humidity')
         humidityElement.textContent = `${humidityValue}%`
+
+        const precipitationElement = document.getElementById('precipitation')
+        precipitationElement.textContent = `${precipitationValue} mm`
+
+        const containerForecastElement = document.getElementById('containerForecast')
+        containerForecastElement.innerHTML = `
+            ${forecast.map(day => `
+                <div class="cardForecast">
+                    <p class="dayOfWeek">${getDayName(day.date)}</p>
+                    <img class="iconForecast" src="${imgForecastWeatherCode(day.weatherCode)}" alt="weather icon">
+                    <div class="tempsForecast">
+                        <p class="">${day.min}°</p>
+                        <p class="">${day.max}°</p>
+                    </div>
+                </div>
+            `).join('')}
+        `
 
     } catch (error) {
         Toastify({
@@ -148,6 +169,41 @@ function feelsLike(time, feelsLike) {
     );
 
     return feelsLike[index] || 'N/A';
+}
+
+function precipitation(time, precipitation) {
+    const now = new Date().toISOString().slice(0, 13);
+
+    const index = time.findIndex(time =>
+        time.startsWith(now)
+    );
+
+    if (precipitation[index] < 0) {
+        return 'N/A';
+    }
+
+    return precipitation[index];
+}
+
+function getDayName(date) {
+    return new Date(date).toLocaleDateString("pt-BR", {
+        weekday: "long",
+    });
+}
+
+
+function dailyForecast(data) {
+    const daily = data.daily;
+
+    const forecast = daily.time.map((date, index) => ({
+        date,
+        weatherCode: daily.weathercode[index],
+        min: daily.temperature_2m_min[index],
+        max: daily.temperature_2m_max[index],
+    }));
+
+    return forecast;
+
 }
 
 function imgWeatherCode(weatherCode, currentTemperature, typeTemperature) {
@@ -206,4 +262,20 @@ function imgWeatherCode(weatherCode, currentTemperature, typeTemperature) {
             `
         return
     }
+}
+
+function imgForecastWeatherCode(weatherCode) {
+    const iconMap = {
+        0: "./assets/images/icon-sunny.webp",
+        1: "./assets/images/icon-sunny.webp",
+        2: "./assets/images/icon-partly-cloudy.webp",
+        3: "./assets/images/icon-overcast.webp",
+        61: "./assets/images/icon-drizzle.webp",
+        62: "./assets/images/icon-drizzle.webp",
+        63: "./assets/images/icon-heavy-rain.webp",
+        64: "./assets/images/icon-heavy-rain.webp",
+        65: "./assets/images/icon-snow.webp",
+    };
+
+    return iconMap[weatherCode] || "./assets/images/icon-sunny.webp";
 }
