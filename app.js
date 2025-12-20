@@ -2,13 +2,14 @@ let loading = false
 
 function nameLocation() {
     const form = document.getElementById('locationForm')
+    const savedLocation = localStorage.getItem('location') || 'Fortaleza'
 
     form.addEventListener('submit', (e) => {
         e.preventDefault()
 
-        const location = e.target.search.value
+        const newLocation = e.target.search.value
 
-        if (!location) {
+        if (!newLocation) {
             Toastify({
                 text: "Please enter a location.",
                 duration: 3000,
@@ -19,8 +20,12 @@ function nameLocation() {
             }).showToast()
             return
         }
-        getLocation(location)
+
+        localStorage.setItem('location', newLocation)
+        getLocation(newLocation)
     })
+
+    getLocation(savedLocation)
 }
 
 nameLocation()
