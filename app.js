@@ -1,4 +1,5 @@
 let loading = false
+let weatherHourlyData = null
 
 function nameLocation() {
     const form = document.getElementById('locationForm')
@@ -28,7 +29,19 @@ function nameLocation() {
     getLocation(savedLocation)
 }
 
+function dayOnWeekday() {
+    const select = document.getElementById('dayButton')
+    select.addEventListener('change', (e) => {
+        const selectedDay = e.target.value
+
+        if (weatherHourlyData) {
+            updateHourlyForecast(selectedDay, weatherHourlyData)
+        }
+    })
+}
+
 nameLocation()
+dayOnWeekday()
 
 async function getLocation(location) {
     try {
@@ -36,8 +49,6 @@ async function getLocation(location) {
         const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${location}`)
 
         const data = await response.json()
-
-        // console.log(data)
 
         const latitude = data.results[0].latitude
         const longitude = data.results[0].longitude
@@ -77,10 +88,17 @@ async function getWeatherData(latitude, longitude, city, country) {
             </div>
         `
 
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=precipitation,apparent_temperature,relativehumidity_2m&daily=weathercode,temperature_2m_min,temperature_2m_max&current_weather=true`)
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,apparent_temperature,relativehumidity_2m,weathercode&daily=weathercode,temperature_2m_min,temperature_2m_max&current_weather=true`)
 
         const data = await response.json()
         console.log(data)
+
+        weatherHourlyData = {
+            time: data.hourly.time,
+            temperature: data.hourly.temperature_2m,
+            weatherCode: data.hourly.weathercode,
+            temperatureUnit: data.hourly_units.temperature_2m
+        }
 
         backgroundImageElement.classList.remove('loading')
 
@@ -141,6 +159,14 @@ async function getWeatherData(latitude, longitude, city, country) {
                 </div>
             `).join('')}
         `
+
+        const today = new Date().toLocaleDateString("pt-BR", { weekday: "long" })
+        updateHourlyForecast(today, weatherHourlyData)
+
+        const selectElement = document.getElementById('dayButton')
+        if (selectElement) {
+            selectElement.value = today
+        }
 
     } catch (error) {
         Toastify({
@@ -283,4 +309,43 @@ function imgForecastWeatherCode(weatherCode) {
     };
 
     return iconMap[weatherCode] || "./assets/images/icon-sunny.webp";
+}
+
+function updateHourlyForecast(selectedDay, hourlyData) {
+    const contentHourlyForecast = document.querySelector('.contentHourlyForecast')
+
+    if (!contentHourlyForecast || !hourlyData) return
+
+    const hoursForSelectedDay = []
+
+    hourlyData.time.forEach((timeString, index) => {
+        const date = new Date(timeString)
+        const dayName = date.toLocaleDateString("pt-BR", { weekday: "long" })
+
+        if (dayName === selectedDay) {
+            hoursForSelectedDay.push({
+                time: timeString,
+                hour: date.getHours(),
+                temperature: hourlyData.temperature[index],
+                weatherCode: hourlyData.weatherCode[index]
+            })
+        }
+    })
+
+    contentHourlyForecast.innerHTML = hoursForSelectedDay.map(hourData => {
+        const hour = hourData.hour
+        const period = hour >= 12 ? 'PM' : 'AM'
+        const displayHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour
+        const iconSrc = imgForecastWeatherCode(hourData.weatherCode)
+
+        return `
+            <div class="hourlyForecast">
+                <div class="hourlyInfo">
+                    <img src="${iconSrc}" alt="weather icon">
+                    <p>${displayHour} ${period}</p>
+                </div>
+                <p>${Math.round(hourData.temperature)}${hourlyData.temperatureUnit}</p>
+            </div>
+        `
+    }).join('')
 }

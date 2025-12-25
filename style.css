@@ -321,3 +321,16 @@ body {
     transition: opacity 0.3s ease;
 }
 
+.dayButton{
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--neutral-700);
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: var(--neutral-200);
+    cursor: pointer;
+}
+
+

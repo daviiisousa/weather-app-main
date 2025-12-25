@@ -17,7 +17,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-
   <link rel="stylesheet" href="style.css">
   
   <title>Frontend Mentor | Weather app</title>
@@ -99,68 +98,19 @@
             <div class="containerWeatherList">
               <div class="headerHourlyForecast">
                 <h3 class="hourlyForecastTitle">Hourly forecast</h3>
-                <button>
-                  Tuesday
+                <select class="dayButton" id="dayButton">
+                  <option value="segunda-feira">Segunda-feira</option>
+                  <option value="terça-feira">Terça-feira</option>
+                  <option value="quarta-feira">Quarta-feira</option>
+                  <option value="quinta-feira">Quinta-feira</option>
+                  <option value="sexta-feira">Sexta-feira</option>
+                  <option value="sábado">Sábado</option>
+                  <option value="domingo">Domingo</option>
                   <img src="./assets/images/icon-dropdown.svg" alt="">
-                </button>
+                </select>
               </div>
               <div class="contentHourlyForecast">
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-sunny.webp" alt="">
-                      <p>3 PM</p>
-                    </div>
-                    <p>22°</p>
-                </div>
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-sunny.webp" alt="">
-                      <p>4 PM</p>
-                    </div>
-                    <p>23°</p>
-                </div>
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-partly-cloudy.webp" alt="">
-                      <p>5 PM</p>
-                    </div>
-                    <p>21°</p>
-                </div>
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-partly-cloudy.webp" alt="">
-                      <p>6 PM</p>
-                    </div>
-                    <p>20°</p>
-                </div>
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-overcast.webp" alt="">
-                      <p>7 PM</p>
-                    </div>
-                    <p>18°</p>
-                </div>
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-overcast.webp" alt="">
-                      <p>8 PM</p>
-                    </div>
-                    <p>17°</p>
-                </div>
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-drizzle.webp" alt="">
-                      <p>9 PM</p>
-                    </div>
-                    <p>16°</p>
-                </div>
-                <div class="hourlyForecast">
-                    <div class="hourlyInfo">
-                      <img src="./assets/images/icon-rain.webp" alt="">
-                      <p>10 PM</p>
-                    </div>
-                    <p>15°</p>
-                </div>
+                
               </div>
             </div>
           </div>
