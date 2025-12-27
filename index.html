@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
 
   <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
 
@@ -16,6 +16,11 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+  <!-- Include Choices.js CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+  <!-- Include Choices.js JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
   
@@ -32,11 +37,25 @@
     <header>
       <div class="headerContent">
         <img src="../assets/images/logo.svg" alt="logo">
-        <button class="unitsButton">
+        <div class="unitsButton">
           <img src="./assets/images/icon-units.svg" alt="engrenagem">
-          Units
-          <img src="./assets/images/icon-dropdown.svg" alt="seta para baixo">
-        </button>
+          <select class="selectUnits" id="selectUnits">
+            <option value="" disabled selected hidden>Units</option>
+          <optgroup label="Temperature" id="temperatureGroup">
+            <option value="celsius" id="C">Celsius</option>
+            <option value="fahrenheit" id="F">Fahrenheit</option>
+          </optgroup>
+          <optgroup label="Wind Speed">
+            <option value="km/h">Km/h</option>
+            <option value="mph">Mph</option>
+          </optgroup>
+          <optgroup label="precipitation">
+            <option value="mm">Millimeters (mm)</option>
+            <option value="%">Percentage (%)</option>
+          </optgroup>
+        </select>
+        </div>
+        
       </div>
     </header>
 

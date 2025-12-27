@@ -37,10 +37,9 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: var(--neutral-800);
+    background-color: var(--neutral-700);
     padding: 6px 12px;
     border-radius: 8px;
-    color: var(--neutral-200);
 }
 
 .title{
@@ -332,5 +331,29 @@ body {
     color: var(--neutral-200);
     cursor: pointer;
 }
+.choices{
+    width: 100px;
+}
 
+.choices__inner{
+    background-color: var(--neutral-700);
+    border: none;
+    min-height: 20px;
+    min-width: 100%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    color: var(--neutral-200);
+    gap: 8px;
+    padding-bottom: 0px;
+}
+
+.choices__list--dropdown, .choices__list[aria-expanded]{
+    background-color: var(--neutral-800);
+    width: 150px;
+    left: -30px;
+    border: var(--neutral-700);
+    border-radius: 8px;
+}
 

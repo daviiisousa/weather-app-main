@@ -71,8 +71,38 @@ async function getLocation(location) {
     }
 }
 
+let selectedUnit = 'celsius'
+let choicesInstance = null // Instância do Choices.js
+
+function selectUnits() {
+    const selectElement = document.getElementById('selectUnits')
+
+    if (selectElement) {
+        // Inicializar Choices.js
+        choicesInstance = new Choices(selectElement, {
+            searchEnabled: false,
+            itemSelectText: '',
+            shouldSort: false,
+            removeItemButton: false,
+        })
+
+        // Listener para mudanças
+        selectElement.addEventListener('change', (e) => {
+            selectedUnit = e.target.value
+            console.log('Selected unit:', selectedUnit)
+
+            const location = localStorage.getItem('location')
+            if (location) {
+                getLocation(location)
+            }
+        })
+    }
+}
+
+selectUnits()
 
 async function getWeatherData(latitude, longitude, city, country) {
+
     try {
         loading = true
 
@@ -88,7 +118,7 @@ async function getWeatherData(latitude, longitude, city, country) {
             </div>
         `
 
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,apparent_temperature,relativehumidity_2m,weathercode&daily=weathercode,temperature_2m_min,temperature_2m_max&current_weather=true`)
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,apparent_temperature,relativehumidity_2m,weathercode&daily=weathercode,temperature_2m_min,temperature_2m_max&current_weather=true&temperature_unit=${selectedUnit}`)
 
         const data = await response.json()
         console.log(data)
