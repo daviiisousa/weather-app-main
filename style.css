@@ -331,29 +331,100 @@ body {
     color: var(--neutral-200);
     cursor: pointer;
 }
-.choices{
-    width: 100px;
+
+.unitsDropdown {
+    position: relative;
 }
 
-.choices__inner{
-    background-color: var(--neutral-700);
-    border: none;
-    min-height: 20px;
-    min-width: 100%;
-    padding: 0;
+.unitsToggle {
     display: flex;
     align-items: center;
-    justify-items: center;
-    color: var(--neutral-200);
     gap: 8px;
-    padding-bottom: 0px;
+    background-color: var(--neutral-800);
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    color: var(--neutral-200);
+    cursor: pointer;
+    font-size: 14px;
 }
 
-.choices__list--dropdown, .choices__list[aria-expanded]{
+.unitsToggle:hover {
+    background-color: var(--neutral-700);
+}
+
+.dropdown-icon {
+    width: 12px;
+    height: 12px;
+    transition: transform 0.3s;
+}
+
+.unitsToggle:hover .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.unitsMenu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
     background-color: var(--neutral-800);
-    width: 150px;
-    left: -30px;
-    border: var(--neutral-700);
     border-radius: 8px;
+    padding: 16px;
+    min-width: 250px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    z-index: 1000;
+}
+
+.unitsMenu.active {
+    display: flex;
+}
+
+.unitsGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.unitsGroup h4 {
+    color: var(--neutral-300);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin: 0 0 4px 0;
+    letter-spacing: 0.5px;
+}
+
+.unitsGroup label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.unitsGroup label:hover {
+    background-color: var(--neutral-700);
+}
+
+.unitsGroup input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--blue-700);
+}
+
+.unitsGroup span {
+    color: var(--neutral-200);
+    font-size: 14px;
+}
+
+.unitsGroup input[type="radio"]:checked + span {
+    color: var(--neutral-0);
+    font-weight: 500;
 }
 

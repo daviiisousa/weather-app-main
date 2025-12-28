@@ -72,30 +72,56 @@ async function getLocation(location) {
 }
 
 let selectedUnit = 'celsius'
-let choicesInstance = null // Instância do Choices.js
+let selectedWindSpeed = 'kmh'
+let selectedPrecipitation = 'mm'
 
 function selectUnits() {
-    const selectElement = document.getElementById('selectUnits')
+    const toggle = document.getElementById('unitsToggle')
+    const menu = document.getElementById('unitsMenu')
+    const temperatureInputs = document.querySelectorAll('input[name="temperature"]')
+    const windSpeedInputs = document.querySelectorAll('input[name="windSpeed"]')
+    const precipitationInputs = document.querySelectorAll('input[name="precipitation"]')
 
-    if (selectElement) {
-        // Inicializar Choices.js
-        choicesInstance = new Choices(selectElement, {
-            searchEnabled: false,
-            itemSelectText: '',
-            shouldSort: false,
-            removeItemButton: false,
-        })
+    toggle.addEventListener('click', (e) => {
+        e.stopPropagation()
+        menu.classList.toggle('active')
+    })
 
-        // Listener para mudanças
-        selectElement.addEventListener('change', (e) => {
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.unitsDropdown')) {
+            menu.classList.remove('active')
+        }
+    })
+
+    temperatureInputs.forEach(input => {
+        input.addEventListener('change', (e) => {
             selectedUnit = e.target.value
-            console.log('Selected unit:', selectedUnit)
-
-            const location = localStorage.getItem('location')
-            if (location) {
-                getLocation(location)
-            }
+            console.log('Temperature:', selectedUnit)
+            reloadWeatherData()
         })
+    })
+
+    windSpeedInputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+            selectedWindSpeed = e.target.value
+            console.log('Wind Speed:', selectedWindSpeed)
+            reloadWeatherData()
+        })
+    })
+
+    precipitationInputs.forEach(input => {
+        input.addEventListener('change', (e) => {
+            selectedPrecipitation = e.target.value
+            console.log('Precipitation:', selectedPrecipitation)
+            reloadWeatherData()
+        })
+    })
+}
+
+function reloadWeatherData() {
+    const location = localStorage.getItem('location')
+    if (location) {
+        getLocation(location)
     }
 }
 
@@ -118,7 +144,11 @@ async function getWeatherData(latitude, longitude, city, country) {
             </div>
         `
 
-        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,apparent_temperature,relativehumidity_2m,weathercode&daily=weathercode,temperature_2m_min,temperature_2m_max&current_weather=true&temperature_unit=${selectedUnit}`)
+        // Mapear as unidades para os parâmetros da API
+        const windSpeedUnit = selectedWindSpeed === 'mph' ? 'mph' : 'kmh'
+        const precipitationUnit = selectedPrecipitation === 'percent' ? 'inch' : 'mm'
+
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,precipitation,apparent_temperature,relativehumidity_2m,weathercode&daily=weathercode,temperature_2m_min,temperature_2m_max&current_weather=true&temperature_unit=${selectedUnit}&windspeed_unit=${windSpeedUnit}&precipitation_unit=${precipitationUnit}`)
 
         const data = await response.json()
         console.log(data)
@@ -173,8 +203,15 @@ async function getWeatherData(latitude, longitude, city, country) {
         const humidityElement = document.getElementById('humidity')
         humidityElement.textContent = `${humidityValue}%`
 
+        // Exibir precipitação com a unidade correta
         const precipitationElement = document.getElementById('precipitation')
-        precipitationElement.textContent = `${precipitationValue} mm`
+        if (selectedPrecipitation === 'percent') {
+            // Converter mm para porcentagem aproximada (simplificado)
+            const precipPercent = precipitationValue > 0 ? Math.min(100, (precipitationValue / 10) * 100).toFixed(0) : 0
+            precipitationElement.textContent = `${precipPercent}%`
+        } else {
+            precipitationElement.textContent = `${precipitationValue} ${data.hourly_units.precipitation || 'mm'}`
+        }
 
         const containerForecastElement = document.getElementById('containerForecast')
         containerForecastElement.innerHTML = `

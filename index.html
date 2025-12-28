@@ -17,10 +17,6 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
-  <!-- Include Choices.js CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
-  <!-- Include Choices.js JavaScript -->
-  <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
   <link rel="stylesheet" href="style.css">
   
@@ -39,21 +35,47 @@
         <img src="../assets/images/logo.svg" alt="logo">
         <div class="unitsButton">
           <img src="./assets/images/icon-units.svg" alt="engrenagem">
-          <select class="selectUnits" id="selectUnits">
-            <option value="" disabled selected hidden>Units</option>
-          <optgroup label="Temperature" id="temperatureGroup">
-            <option value="celsius" id="C">Celsius</option>
-            <option value="fahrenheit" id="F">Fahrenheit</option>
-          </optgroup>
-          <optgroup label="Wind Speed">
-            <option value="km/h">Km/h</option>
-            <option value="mph">Mph</option>
-          </optgroup>
-          <optgroup label="precipitation">
-            <option value="mm">Millimeters (mm)</option>
-            <option value="%">Percentage (%)</option>
-          </optgroup>
-        </select>
+          <div class="unitsDropdown" id="unitsDropdown">
+            <button class="unitsToggle" id="unitsToggle">
+              <span id="unitsLabel">Units</span>
+              <img src="./assets/images/icon-dropdown.svg" alt="dropdown" class="dropdown-icon">
+            </button>
+            <div class="unitsMenu" id="unitsMenu">
+              <div class="unitsGroup">
+                <h4>Temperature</h4>
+                <label>
+                  <input type="radio" name="temperature" value="celsius" checked>
+                  <span>Celsius</span>
+                </label>
+                <label>
+                  <input type="radio" name="temperature" value="fahrenheit">
+                  <span>Fahrenheit</span>
+                </label>
+              </div>
+              <div class="unitsGroup">
+                <h4>Wind Speed</h4>
+                <label>
+                  <input type="radio" name="windSpeed" value="kmh" checked>
+                  <span>Km/h</span>
+                </label>
+                <label>
+                  <input type="radio" name="windSpeed" value="mph">
+                  <span>Mph</span>
+                </label>
+              </div>
+              <div class="unitsGroup">
+                <h4>Precipitation</h4>
+                <label>
+                  <input type="radio" name="precipitation" value="mm" checked>
+                  <span>Millimeters (mm)</span>
+                </label>
+                <label>
+                  <input type="radio" name="precipitation" value="percent">
+                  <span>Percentage (%)</span>
+                </label>
+              </div>
+            </div>
+          </div>
         </div>
         
       </div>
