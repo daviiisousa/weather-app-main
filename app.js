@@ -144,7 +144,6 @@ async function getWeatherData(latitude, longitude, city, country) {
             </div>
         `
 
-        // Mapear as unidades para os parâmetros da API
         const windSpeedUnit = selectedWindSpeed === 'mph' ? 'mph' : 'kmh'
         const precipitationUnit = selectedPrecipitation === 'percent' ? 'inch' : 'mm'
 

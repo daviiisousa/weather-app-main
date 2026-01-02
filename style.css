@@ -20,6 +20,17 @@ body {
     color: var(--neutral-0);
 }
 
+.mainContent{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    max-width: 100%;
+}
+
+.contentWeather{
+    max-width: 100%;
+}
+
 .container {
     max-width: 1440px;
     margin: 0 auto;
@@ -60,6 +71,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 16px;
+    min-width: 100%;
 }
 
 .searchInput{
@@ -89,18 +101,20 @@ body {
     background-color: var(--neutral-800);
     padding: 6px 12px;
     border-radius: 8px;
+    max-width: 100%;
 }
 
 .weatherSection{
     margin: 30px 0;
+    max-width: 100%;
     display: grid;
     grid-template-columns: 800px 1fr;
     gap: 40px;
 }
 
 .contentOverlay{
-   display: flex;
-   justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
     height: 100%;
     max-width: 100%;
@@ -113,20 +127,23 @@ body {
     background-position: center;
     background-size: contain;
     height: 286px;
-    width: 800px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
     
 }
 
 .currentWeather{
     display: flex;
     align-items: center;
+    max-height: 100%;
     gap: 20px;
-    height: 100%;
 
     p{
         font-size: 70px;
         font-weight: 600;
         font-style: italic;
+        margin: 0;
     }
 
     img{
@@ -144,14 +161,15 @@ body {
         font-weight: 700;
         line-height: 0%;
     }
+    
+}
 
-    p{
+.dateInfo{
         font-size: 18px;
         font-weight: 500;
         color: var(--neutral-300);
         line-height: 0%;
     }
-}
 
 .contentCards{
     display: grid;
@@ -232,19 +250,21 @@ body {
 .tempsForecast{
     display: flex;
     justify-content: space-between;
+    width: 100%;
 }
 
 .weatherList{
-    height:  660px;
+    max-height:  660px;
+    overflow-y: scroll;
+    border-radius: 8px;
+    background-color: var(--neutral-800);
 }
 
 .containerWeatherList{
-    background-color: var(--neutral-800);
     padding: 20px;
-    border-radius: 8px;
     max-height: 100%;
-    overflow-y: auto;
 }
+
 .hourlyForecastTitle{
     margin: 0;
     font-size: 16px;
@@ -340,7 +360,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: var(--neutral-800);
+    background-color: var(--neutral-700);
     border: none;
     padding: 6px 12px;
     border-radius: 8px;
@@ -426,5 +446,137 @@ body {
 .unitsGroup input[type="radio"]:checked + span {
     color: var(--neutral-0);
     font-weight: 500;
+}
+
+@media (max-width: 1250px){
+
+    .container{
+        max-width: 100%;
+        padding: 10px;
+    }
+    
+    .weatherSection{
+        grid-template-columns: 100%;
+    }
+
+    .contentForecast{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        overflow-x: scroll;
+        
+    }
+
+     .contentOverlay{
+        padding: 20px;
+        max-height: 100%;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+}
+
+@media (max-width: 600px) {
+    .container{
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .weatherSection{
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        
+    }
+
+    .title{
+        font-size: 25px;
+    }
+
+    .currentWeather p{
+        font-size: 50px;
+    }
+
+    .currentWeather img{
+        width: 120px;
+        height: 120px;
+    }
+
+    .searchInput{
+        width: 100%;
+    }
+
+    .backgroundImage{
+        background-image: url("./assets//images/bg-today-small.svg");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+        height: 286px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .contentOverlay{
+        padding: 20px;
+        max-height: 100%;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .cityName{
+        text-align: center;
+    }
+
+    .dateInfo{
+        font-size: 14px;
+        text-align: center; 
+    }
+
+    .currentWeather{
+        justify-content: center;
+        width: 100%;
+
+        p{
+            font-size: 60px;
+            width: 100%;
+        }
+    }
+
+    .contentCards{
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        margin-top: 10px;
+    }
+
+    .containerForecast{
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        overflow-x: hidden;
+        margin-top: 10px;
+    }
+    
+    .cardForecast{
+        min-width: 100%;
+        padding: 0px;
+    }
+
+    .tempsForecast{
+        justify-content: space-around;
+    }
+
+    .searchForm{
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .logo{
+        width: 150px;
+    }
+
+    .contentForecast{
+        display: block;
+    }
 }
 
